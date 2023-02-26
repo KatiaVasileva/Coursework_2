@@ -33,7 +33,12 @@ public class TaskService {
     }
 
     public Task removeTask(int id) {
-        return taskMap.remove(id);
+        for (Map.Entry<Integer, Task> task : getTaskMap().entrySet()) {
+            if (task.getKey() == id) {
+                return taskMap.remove(id);
+            }
+        }
+        throw new TaskNotFoundException("Задача не найдена!");
     }
 
     public void addToRemovedTasks(Task task) {
@@ -53,4 +58,26 @@ public class TaskService {
     public void printTasksByDate(List<Map.Entry<Integer, Task>> tasksByDate) {
         tasksByDate.forEach(task -> System.out.println(task.getKey() + ". " + task.getValue()));
     }
+
+    public Task updateTitle(int id, String title) {
+        Task task = getTaskMap().get(id);
+        task.setTitle(title);
+        return task;
+    }
+    public Task updateDescription(int id, String description) {
+        Task task = getTaskMap().get(id);
+        task.setDescription(description);
+        return task;
+    }
+
+    /*public Map<LocalDate, Collection<Task>> getAllGroupedByDate(LocalDate localDate) {
+        Collection <Task> tasks = new ArrayList<>(getTaskMap().values());
+        Map<LocalDate, Collection<Task>> tasksGroupedByDate = tasks.stream()
+                .collect(Collectors.toMap(task -> getTaskMap().get, task -> ));*/
+        /*Map<LocalDate, Collection<Task>> tasksGroupedByDate = new HashMap<>();
+        tasksGroupedByDate = */
+       /* return put(localDate, tasks);
+                */
+//    }
+
 }
